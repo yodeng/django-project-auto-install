@@ -1,5 +1,4 @@
 import os
-import sys
 import sysconfig
 
 from setuptools import setup, find_packages
@@ -24,7 +23,7 @@ def listdir(path):
 def getExtension():
     extensions = []
     for f in listdir("src"):
-        e = Extension(os.path.splitext(f)[0][4:].replace("/", "."),
+        e = Extension(os.path.splitext(f)[0][4:].replace(os.path.sep, "."),
                       [f, ], extra_compile_args=["-O3", ],)
         e.cython_directives = {
             'language_level': sysconfig._PY_VERSION_SHORT_NO_DOT[0]}
