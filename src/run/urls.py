@@ -6,5 +6,5 @@ from . import views
 app_name = "run"
 
 urlpatterns = [
-    url(r'^kpipestart/?', views.kpipestart, name="kpipestart"),
+    url(r'^kpipestart/?', views.Kpipe.as_view()),
 ]
