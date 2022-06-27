@@ -11,8 +11,10 @@ import subprocess
 import logging
 import threading
 
+from django.views import View
 from django.conf import settings
 from django.http import JsonResponse, Http404
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 loger = logging.getLogger("django.server")
@@ -50,9 +52,13 @@ def run(analysis_dir):
         raise err
 
 
-@csrf_exempt
-def kpipestart(request):
-    if request.method == "POST":
+@method_decorator(csrf_exempt, name='dispatch')
+class Kpipe(View):
+
+    def get(self, request):
+        return Http404()
+
+    def post(self, request):
         analysis_dir = os.path.join(
             settings.KPIPE_PROJ_DIR, datetime.datetime.today().strftime("%Y-%m-%d-%H-%M-%S-%f"))
         try:
@@ -69,8 +75,6 @@ def kpipestart(request):
             errinfo["msg"] = e.__str__()
             errinfo["analysis_dir"] = analysis_dir
             return JsonResponse(errinfo, json_dumps_params={'ensure_ascii': False})
-    else:
-        return Http404()
 
 
 def check_kpipe(data, analysis_dir):
