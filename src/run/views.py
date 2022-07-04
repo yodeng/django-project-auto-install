@@ -77,21 +77,28 @@ class Kpipe(View):
             return JsonResponse(errinfo, json_dumps_params={'ensure_ascii': False})
 
 
+def check_file(path):
+    assert os.path.isfile(path), "No such file %s" % path
+
+
+def check_key(k, d, m):
+    assert k in d, "'%s' must in %s" % (k, m)
+
+
 def check_kpipe(data, analysis_dir):
     lines = []
+    key_info = "sample info"
     for sn in data["samples"]:
         l = []
-        assert "name" in sn, "'name' must in sample info"
+        check_key("name", sn, key_info)
         l.append(sn["name"])
-        assert "read_length" in sn, "'read_length' must in sample info"
+        check_key("read_length", sn, key_info)
         l.append(sn["read_length"])
-        assert "fq1_path" in sn, "'fq1_path' must in sample info"
-        assert os.path.isfile(
-            sn["fq1_path"]), "No such file %s" % sn["fq1_path"]
+        check_key("fq1_path", sn, key_info)
+        check_file(sn["fq1_path"])
         l.append(sn["fq1_path"])
         if "fq2_path" in sn:
-            assert os.path.isfile(
-                sn["fq2_path"]), "No such file %s" % sn["fq2_path"]
+            check_file(sn["fq2_path"])
             l.append(sn["fq2_path"])
         lines.append(l)
     if not os.path.isdir(analysis_dir):
