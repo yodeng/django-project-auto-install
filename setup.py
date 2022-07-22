@@ -39,7 +39,7 @@ def getdes():
 
 
 setup(
-    name="kpipeapi",
+    name="kpipe",
     version=__version__,
     packages=find_packages(),
     license="BSD",
@@ -51,7 +51,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'kpipeapi = kpipeapi.main:main',
+            'kpipe = kpipe.main:main',
         ]
     }
 )

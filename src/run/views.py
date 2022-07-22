@@ -48,7 +48,10 @@ def run(analysis_dir):
         subprocess.call("nohup sh " + os.path.join(analysis_dir, "run.sh") + " &> %s/run.log &" %
                         analysis_dir, shell=True)
     except Exception as err:
-        loger.error(err.__str__())
+        loger.error(err.args[0])
+        '''
+        response error to status recive api if possible
+        '''
         raise err
 
 
@@ -70,9 +73,9 @@ class Kpipe(View):
             sucinfo["analysis_dir"] = analysis_dir
             return JsonResponse(sucinfo, json_dumps_params={'ensure_ascii': False})
         except Exception as e:
-            loger.error(e.__str__())
+            loger.error(e.args[0])
             errinfo = err.copy()
-            errinfo["msg"] = e.__str__()
+            errinfo["msg"] = e.args[0]
             errinfo["analysis_dir"] = analysis_dir
             return JsonResponse(errinfo, json_dumps_params={'ensure_ascii': False})
 

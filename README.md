@@ -20,9 +20,9 @@ pip3 install ./django-project-auto-install
 #### 2. 使用
 
 ```shell
-$ kpipeapi --help
+$ kpipe --help
 
-Type 'kpipeapi help <subcommand>' for help on a specific subcommand.
+Type 'kpipe help <subcommand>' for help on a specific subcommand.
 
 Available subcommands:
 
